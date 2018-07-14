@@ -107,8 +107,8 @@ class ClipboardDatabase(db.IClipboardDatabase):
 
 	def search(self, n, keywords=None):
 		if keywords:
-			match = unicode("* ".join(keywords.split(' ')) + "*")
-			self.cursor.execute('SELECT rowid, text FROM clips WHERE text MATCH (?) ORDER BY rowid DESC LIMIT ?', (match,n))
+			match = unicode('%'+keywords.strip()+'%')
+			self.cursor.execute('SELECT rowid, text FROM clips WHERE text LIKE ? ORDER BY rowid DESC LIMIT ?', (match,n))
 		else:
 			self.cursor.execute('SELECT rowid, text FROM clips ORDER BY rowid DESC LIMIT ?', (n,))
 
